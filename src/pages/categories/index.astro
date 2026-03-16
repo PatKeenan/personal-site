@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+
+const categoryCounts: Record<string, number> = {};
+for (const post of posts) {
+  const cat = post.data.category;
+  categoryCounts[cat] = (categoryCounts[cat] ?? 0) + 1;
+}
+
+const categories = Object.entries(categoryCounts).sort(([a], [b]) => a.localeCompare(b));
+---
+
+<BaseLayout title="Categories — Pat Keenan" description="Browse posts by category.">
+  <h1 class="text-2xl font-bold mb-8">Categories</h1>
+  <div class="flex flex-col gap-3">
+    {categories.map(([category, count]) => (
+      <a
+        href={`/categories/${encodeURIComponent(category.toLowerCase().replace(/\s+/g, '-'))}`}
+        class="flex items-center justify-between bg-gray-50 hover:bg-gray-100 text-gray-800 px-4 py-3 rounded-lg transition-colors group"
+      >
+        <span class="font-medium group-hover:text-gray-900">{category}</span>
+        <span class="text-sm text-gray-400">{count} post{count !== 1 ? 's' : ''}</span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

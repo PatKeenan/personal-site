@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Search — Pat Keenan" description="Search all posts.">
+  <header class="mb-8">
+    <h1 class="text-2xl font-bold mb-2">Search</h1>
+    <p class="text-sm text-gray-500">Search across all posts by keyword.</p>
+  </header>
+
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <div id="search" class="mb-10"></div>
+
+  <script is:inline>
+    // Pagefind UI is generated at build time via `npx pagefind --site dist`.
+    // In development mode the index doesn't exist yet, so we show a notice.
+    (async () => {
+      const searchEl = document.getElementById('search');
+      if (!searchEl) return;
+      try {
+        const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
+        new PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          resetStyles: false,
+        });
+      } catch {
+        searchEl.innerHTML =
+          '<p class="text-sm text-gray-500 py-4">Search is available after the site is built. Run <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">npm run build</code> to generate the search index.</p>';
+      }
+    })();
+  </script>
+</BaseLayout>

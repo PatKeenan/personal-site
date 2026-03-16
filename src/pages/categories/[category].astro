@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import CategorySidebar from '../../components/CategorySidebar.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+  const categoryNames = [...new Set(allPosts.map((p) => p.data.category))];
+
+  // Build categories list for the sidebar
+  const categoryCounts: Record<string, number> = {};
+  for (const post of allPosts) {
+    const cat = post.data.category;
+    categoryCounts[cat] = (categoryCounts[cat] ?? 0) + 1;
+  }
+  const categories = Object.entries(categoryCounts)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([name, count]) => ({
+      name,
+      count,
+      slug: name.toLowerCase().replace(/\s+/g, '-'),
+    }));
+
+  return categoryNames.map((categoryName) => {
+    const slug = categoryName.toLowerCase().replace(/\s+/g, '-');
+    return {
+      params: { category: slug },
+      props: {
+        categoryName,
+        categories,
+        posts: allPosts
+          .filter((p) => p.data.category === categoryName)
+          .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+      },
+    };
+  });
+}
+
+const { category } = Astro.params;
+const { categoryName, categories, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`${categoryName} — Pat Keenan`}
+  description={`Posts in the ${categoryName} category.`}
+>
+  <div class="flex flex-col md:flex-row gap-10">
+    <div class="flex-1 min-w-0">
+      <header class="mb-8">
+        <p class="text-sm text-gray-400 mb-1">
+          <a href="/categories" class="hover:text-gray-600 transition-colors">Categories</a> /
+        </p>
+        <h1 class="text-2xl font-bold">{categoryName}</h1>
+        <p class="text-sm text-gray-500 mt-1">
+          {posts.length} post{posts.length !== 1 ? 's' : ''}
+        </p>
+      </header>
+      <div>
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+    <div class="md:w-48 shrink-0">
+      <CategorySidebar categories={categories} currentCategory={category} />
+    </div>
+  </div>
+</BaseLayout>

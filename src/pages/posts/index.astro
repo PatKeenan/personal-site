@@ -1,32 +1,39 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import CategorySidebar from '../../components/CategorySidebar.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-// Collect all unique tags
-const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+// Build categories list with counts and slugs
+const categoryCounts: Record<string, number> = {};
+for (const post of posts) {
+  const cat = post.data.category;
+  categoryCounts[cat] = (categoryCounts[cat] ?? 0) + 1;
+}
+const categories = Object.entries(categoryCounts)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([name, count]) => ({
+    name,
+    count,
+    slug: name.toLowerCase().replace(/\s+/g, '-'),
+  }));
 ---
 
 <BaseLayout title="Posts — Pat Keenan" description="All posts.">
-  <header class="mb-8">
-    <h1 class="text-2xl font-bold mb-4">Posts</h1>
-    {allTags.length > 0 && (
-      <div class="flex flex-wrap gap-2">
-        {allTags.map((tag) => (
-          <a
-            href={`/tags/${tag}`}
-            class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded transition-colors"
-          >
-            #{tag}
-          </a>
-        ))}
+  <div class="flex flex-col md:flex-row gap-10">
+    <div class="flex-1 min-w-0">
+      <header class="mb-8">
+        <h1 class="text-2xl font-bold">Posts</h1>
+      </header>
+      <div>
+        {posts.map((post) => <PostCard post={post} />)}
       </div>
-    )}
-  </header>
-  <div>
-    {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <div class="md:w-48 shrink-0">
+      <CategorySidebar categories={categories} />
+    </div>
   </div>
 </BaseLayout>
