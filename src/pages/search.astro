@@ -18,13 +18,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const searchEl = document.getElementById('search');
       if (!searchEl) return;
       try {
-        const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
+        await import('/pagefind/pagefind-ui.js');
+        const PagefindUI = window.PagefindUI;
+        if (typeof PagefindUI !== 'function') throw new Error('PagefindUI not loaded');
         new PagefindUI({
           element: '#search',
           showSubResults: true,
           resetStyles: false,
         });
-      } catch {
+
+      } catch (error) {
+        console.error(error);
         searchEl.innerHTML =
           '<p class="text-sm text-gray-500 py-4">Search is available after the site is built. Run <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">npm run build</code> to generate the search index.</p>';
       }
