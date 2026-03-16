@@ -23,16 +23,16 @@ const categories = Object.entries(categoryCounts)
 ---
 
 <BaseLayout title="Posts — Pat Keenan" description="All posts.">
-  <div class="flex flex-col md:flex-row gap-10">
+  <div class="flex flex-col lg:flex-row gap-10">
     <div class="flex-1 min-w-0">
       <header class="mb-8">
         <h1 class="text-2xl font-bold">Posts</h1>
       </header>
-      <div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
         {posts.map((post) => <PostCard post={post} />)}
       </div>
     </div>
-    <div class="md:w-48 shrink-0">
+    <div class="lg:w-52 shrink-0">
       <CategorySidebar categories={categories} />
     </div>
   </div>

@@ -1,2 +1,19 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+@theme {
+  --color-pastel-blue: #dbeafe;
+  --color-pastel-blue-text: #1e40af;
+  --color-pastel-green: #dcfce7;
+  --color-pastel-green-text: #166534;
+  --color-pastel-yellow: #fef9c3;
+  --color-pastel-yellow-text: #854d0e;
+  --color-pastel-purple: #f3e8ff;
+  --color-pastel-purple-text: #6b21a8;
+  --color-pastel-rose: #ffe4e6;
+  --color-pastel-rose-text: #9f1239;
+  --color-pastel-orange: #ffedd5;
+  --color-pastel-orange-text: #9a3412;
+  --color-pastel-teal: #ccfbf1;
+  --color-pastel-teal-text: #134e4a;
+}
