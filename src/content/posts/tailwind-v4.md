@@ -2,6 +2,7 @@
 title: First Look at Tailwind CSS v4
 description: Tailwind CSS v4 drops the JavaScript config file in favor of pure CSS configuration. Here's what changed and why it matters.
 date: 2026-03-16
+category: Tutorial
 tags: [css, tailwind, web]
 ---
 

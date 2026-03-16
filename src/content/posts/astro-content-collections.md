@@ -2,6 +2,7 @@
 title: Why Astro Content Collections Are Great for Blogs
 description: A quick look at how Astro's Content Collections feature makes managing blog posts type-safe and painless.
 date: 2026-03-16
+category: Tutorial
 tags: [astro, typescript, web]
 ---
 

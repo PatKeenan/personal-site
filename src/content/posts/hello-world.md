@@ -2,6 +2,7 @@
 title: Hello World
 description: The first post on my new personal site. A bit about why I built it and what I plan to write about.
 date: 2026-03-16
+category: Personal
 tags: [meta, personal]
 ---
 
