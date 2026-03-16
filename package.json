@@ -7,9 +7,12 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npx pagefind --site dist",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
+  },
+  "devDependencies": {
+    "pagefind": "^1.4.0"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.17",
