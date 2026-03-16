@@ -3,29 +3,81 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   post: CollectionEntry<'posts'>;
+  featured?: boolean;
 }
 
-const { post } = Astro.props;
-const { title, description, date, tags } = post.data;
+const { post, featured = false } = Astro.props;
+const { title, description, date, category, tags } = post.data;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
 });
+
+const categorySlug = category.toLowerCase().replace(/\s+/g, '-');
+
+const tagPalette = [
+  { bg: 'bg-blue-100', text: 'text-blue-700' },
+  { bg: 'bg-green-100', text: 'text-green-700' },
+  { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+  { bg: 'bg-purple-100', text: 'text-purple-700' },
+  { bg: 'bg-rose-100', text: 'text-rose-700' },
+  { bg: 'bg-orange-100', text: 'text-orange-700' },
+  { bg: 'bg-teal-100', text: 'text-teal-700' },
+];
+
+function getTagColor(tag: string) {
+  let hash = 0;
+  for (const ch of tag) hash = (hash * 31 + ch.charCodeAt(0)) & 0xffff;
+  return tagPalette[hash % tagPalette.length];
+}
+
+const categoryPalette = [
+  { bg: 'bg-indigo-100', text: 'text-indigo-700' },
+  { bg: 'bg-emerald-100', text: 'text-emerald-700' },
+  { bg: 'bg-amber-100', text: 'text-amber-700' },
+  { bg: 'bg-fuchsia-100', text: 'text-fuchsia-700' },
+  { bg: 'bg-sky-100', text: 'text-sky-700' },
+  { bg: 'bg-lime-100', text: 'text-lime-700' },
+];
+
+function getCategoryColor(cat: string) {
+  let hash = 0;
+  for (const ch of cat) hash = (hash * 31 + ch.charCodeAt(0)) & 0xffff;
+  return categoryPalette[hash % categoryPalette.length];
+}
+
+const catColor = getCategoryColor(category);
 ---
 
-<article class="group py-6 border-b border-gray-100 last:border-0">
-  <a href={`/posts/${post.id}`} class="block">
-    <h2 class="text-lg font-semibold text-gray-900 group-hover:text-gray-600 transition-colors mb-1">
+<article class={`group flex flex-col h-full border border-gray-100 rounded-xl p-5 hover:border-gray-300 hover:shadow-sm transition-all bg-white ${featured ? 'md:p-7' : ''}`}>
+  <a href={`/posts/${post.id}`} class="flex flex-col flex-1">
+    <h2 class={`font-bold text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-2 mb-2 ${featured ? 'text-xl leading-snug' : 'text-base leading-snug'}`}>
       {title}
     </h2>
-    <p class="text-gray-500 text-sm mb-3 line-clamp-2">{description}</p>
-    <div class="flex flex-wrap items-center gap-2">
-      <time class="text-xs text-gray-400" datetime={date.toISOString()}>{formattedDate}</time>
-      {tags.map((tag) => (
-        <span class="text-xs text-gray-400">#{tag}</span>
-      ))}
+    <time class="text-xs text-gray-400 mb-2" datetime={date.toISOString()}>{formattedDate}</time>
+    <p class="text-gray-500 text-sm line-clamp-3 flex-1 mb-4">{description}</p>
+    <div class="flex flex-wrap gap-1.5 mt-auto">
+      <a
+        href={`/categories/${categorySlug}`}
+        class={`text-xs font-medium px-2 py-0.5 rounded-full ${catColor.bg} ${catColor.text}`}
+        onclick="event.stopPropagation()"
+      >
+        {category}
+      </a>
+      {tags.map((tag) => {
+        const color = getTagColor(tag);
+        return (
+          <a
+            href={`/tags/${tag}`}
+            class={`text-xs px-2 py-0.5 rounded-full ${color.bg} ${color.text}`}
+            onclick="event.stopPropagation()"
+          >
+            #{tag}
+          </a>
+        );
+      })}
     </div>
   </a>
 </article>
