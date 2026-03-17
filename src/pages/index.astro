@@ -179,7 +179,7 @@ const leadDate = leadPost?.data.date.toLocaleDateString('en-US', {
             {gridPosts.map((post) => {
               const d = post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
               return (
-                <article class="group border-t border-gray-100 py-5 pr-4">
+                <article class="group py-5 pr-4">
                   <a href={`/posts/${post.id}`} class="block">
                     <h3 class="font-semibold text-gray-900 line-clamp-2 text-sm leading-snug mb-1.5 group-hover:text-gray-500 transition-colors">
                       {post.data.title}
