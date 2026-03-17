@@ -10,7 +10,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
   <nav class="w-full max-w-7xl mx-auto px-6 lg:px-10 h-14 flex items-center justify-between">
-    <a href="/" class="font-bold text-gray-900 hover:text-gray-600 transition-colors text-lg tracking-tight">
+    <a href="/" class="font-bold text-gray-900 hover:text-accent-teal transition-colors text-lg tracking-tight">
       Pat Keenan
     </a>
     <div class="flex items-center gap-6">
@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname;
           class={`text-sm transition-colors ${
             currentPath.startsWith(href)
               ? 'text-gray-900 font-semibold'
-              : 'text-gray-500 hover:text-gray-900'
+              : 'text-gray-500 hover:text-accent-teal'
           }`}
         >
           {label}
@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname;
         class={`text-sm transition-colors ${
           currentPath.startsWith('/search')
             ? 'text-gray-900'
-            : 'text-gray-400 hover:text-gray-700'
+            : 'text-gray-400 hover:text-accent-teal'
         }`}
         title="Search"
         aria-label="Search"
@@ -42,7 +42,7 @@ const currentPath = Astro.url.pathname;
       </a>
       <a
         href="/rss.xml"
-        class="text-gray-400 hover:text-gray-600 transition-colors"
+        class="text-gray-400 hover:text-accent-teal transition-colors"
         title="RSS Feed"
         aria-label="RSS Feed"
       >

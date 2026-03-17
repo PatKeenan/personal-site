@@ -2,6 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+  --color-accent-pink: #D946A8;
+  --color-accent-teal: #0D9488;
   --color-pastel-blue: #dbeafe;
   --color-pastel-blue-text: #1e40af;
   --color-pastel-green: #dcfce7;
