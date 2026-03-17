@@ -124,7 +124,7 @@ const leadDate = leadPost?.data.date.toLocaleDateString('en-US', {
                 class="flex items-center justify-between text-xs text-gray-600 hover:text-accent-teal transition-colors group"
               >
                 <span class="group-hover:underline">#{tag}</span>
-                <span class="font-mono text-accent-pink">{count}</span>
+                <span class="font-mono text-gray-500">{count}</span>
               </a>
             </li>
           ))}
@@ -229,15 +229,15 @@ const leadDate = leadPost?.data.date.toLocaleDateString('en-US', {
         <ul class="space-y-2">
           <li class="flex items-center justify-between">
             <span class="text-xs text-gray-500">Posts</span>
-            <span class="font-mono text-xs text-accent-teal font-semibold">{totalPosts}</span>
+            <span class="font-mono text-xs text-gray-700 font-semibold">{totalPosts}</span>
           </li>
           <li class="flex items-center justify-between">
             <span class="text-xs text-gray-500">Categories</span>
-            <span class="font-mono text-xs text-accent-teal font-semibold">{totalCategories}</span>
+            <span class="font-mono text-xs text-gray-700 font-semibold">{totalCategories}</span>
           </li>
           <li class="flex items-center justify-between">
             <span class="text-xs text-gray-500">Tags</span>
-            <span class="font-mono text-xs text-accent-teal font-semibold">{totalTags}</span>
+            <span class="font-mono text-xs text-gray-700 font-semibold">{totalTags}</span>
           </li>
         </ul>
       </div>
